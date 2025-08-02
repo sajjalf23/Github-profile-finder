@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        background: linear-gradient(45deg, #E6E6FA, #F5F5DC);
+        margin: 0px;
+        padding: 0px;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        box-sizing: border-box;
+        height: 100vh;
+        width: 100vw;
+        background: linear-gradient(45deg, #E6E6FA, #F5F5DC);
+    }
+
+    #in {
+        height: 38px;
+        width: 250px;
+        padding: 5px;
+        background-color: #F5F5DC;
+        /* border-top-left-radius: 5;
+        border-bottom-left-radius: 5%; */
+        box-sizing: border-box;
+        color: black;
+        transition: box-shadow 0.3s ease; 
+    }
+
+    .input {
+        display: flex;
+        flex-wrap: wrap;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    #btn {
+        background-color: #FFD700;
+        width: 80px;
+        height: 38px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        /* border-top-right-radius: 8%;
+        border-bottom-right-radius: 8%; */
+    }
+
+    .display{
+        height: 220px;
+        width: 283px;
+        background-color:#F5F5DC;
+        border-bottom-right-radius: 8%; 
+        border-bottom-left-radius: 8%; 
+        border: 2px solid black;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        gap: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease;
+    }
+    .display:hover {
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+    }
+
+    #image{
+        border: 2px solid black;
+        height: 170px;
+        width: 280px;
+        background-color:#F5F5DC;
+        border-top-right-radius: 8%;
+        border-top-left-radius: 8%;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    .contain{
+        /* border: 2px solid black; */
+        height: 420px;
+        width: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .display p{
+        background-color: #F5F5DC;
+        text-align: center;
+    }
+    #name{
+        font-size: larger;
+        font-family: 'Open Sans', sans-serif;
+    }
+    .input input, #btn {
+    border: 1px solid #dcdcdc; /* Light border */
+    }
+
+    h4 {
+        color: #333;
+        font-family: 'Open Sans', sans-serif;
+    }
+
+</style>
+
+<body>
+    <div class="container">
+        <div class="input">
+            <input type="text" placeholder="enter username" id="in">
+            <button id="btn"> SEARCH </button>
+        </div>
+        <div class="contain">
+        <img src="" alt="" id="image">
+        <div class="display">
+            <h4 id="name"> USERNAME :</h4>
+            <h4>ABOUT :</h4>
+              <p id="info">
+                    nill 
+              </p>
+            <h4> FOLLOWERS :</h4>
+              <p id="follow">  0 </p>
+        </div>
+    </div>
+    </div>
+    <script>
+        let inp = document.getElementById("in");
+        let button = document.getElementById("btn");
+        let image = document.getElementById("image");
+        let textinfo = document.getElementById("info");
+        let name = document.getElementById("name");
+        let folow = document.getElementById("follow");
+        let data;
+
+        button.addEventListener("click", function () {
+            if (inp.value != "") {
+                let username = inp.value.trim();
+                inp.value = "";
+                const xmlrequest = new XMLHttpRequest();
+                let url = `https://api.github.com/users/${username}`;
+                xmlrequest.open('GET', url);
+                xmlrequest.onreadystatechange = function () {
+                    console.log(xmlrequest.readyState);
+                    if (xmlrequest.readyState == 4) {
+                        if (xmlrequest.status == 200) {
+                            data = (JSON.parse(this.responseText));
+                            console.log(data);
+                            image.src = data.avatar_url || ' ';
+                            textinfo.innerHTML = data.bio || 'No bio available';
+                            follow.innerHTML = data.followers || '0';
+                            name.innerHTML = username.toUpperCase();
+                        }
+                        else {
+                            alert("user not found");
+                        }
+                    }
+                }
+                xmlrequest.send();
+            }
+            else {
+                alert("username is empty");
+            }
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>
