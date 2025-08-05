@@ -1,6 +1,6 @@
 # 🧑‍💻 GitHub User Info Finder
 
-A simple and elegant frontend web application to search for GitHub user profiles using the GitHub API.
+A simple and elegant frontend web application using JavaScript to search for GitHub user profiles using the GitHub API.
 
 ---
 
